@@ -1,0 +1,7 @@
+C:\Users\Badde00\source\repos\ReceptProgram\ReceptProgram\bin\Debug\ReceptProgram.exe.config
+C:\Users\Badde00\source\repos\ReceptProgram\ReceptProgram\bin\Debug\ReceptProgram.exe
+C:\Users\Badde00\source\repos\ReceptProgram\ReceptProgram\bin\Debug\ReceptProgram.pdb
+C:\Users\Badde00\source\repos\ReceptProgram\ReceptProgram\obj\Debug\ReceptProgram.csprojAssemblyReference.cache
+C:\Users\Badde00\source\repos\ReceptProgram\ReceptProgram\obj\Debug\ReceptProgram.csproj.CoreCompileInputs.cache
+C:\Users\Badde00\source\repos\ReceptProgram\ReceptProgram\obj\Debug\ReceptProgram.exe
+C:\Users\Badde00\source\repos\ReceptProgram\ReceptProgram\obj\Debug\ReceptProgram.pdb

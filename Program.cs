@@ -12,6 +12,7 @@ namespace ReceptProgram
         Kilo,
         Liter,
         Deciliter,
+        Stycken,
         Nypa,
         Kopp,
         Kryddmått,

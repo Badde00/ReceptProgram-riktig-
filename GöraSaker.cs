@@ -10,10 +10,13 @@ namespace ReceptProgram
     class GöraSaker
     {
         List<Recept> Receptlista;
+        List<List<string>> ReceptSamling;
 
         public void Start()
         {
             Receptlista = new List<Recept>();
+            FilTillReceptlista(); //Läser in tidigare recept
+
             while (true)
             {
                 Console.WriteLine("Vad vill du göra? (Läsa recept (L) / Skriva recept (S))");
@@ -26,6 +29,8 @@ namespace ReceptProgram
                 else if (s == "S")
                 {
                     SkrivaRecept();
+                    ReceptlistaTillStringlista(); //Sparar efter varje nytt recept och skriver över tidigare fil då jag redan läst in hela vid programmets start.
+                    StringlistaTillFil();
                 }
                 else
                 {
@@ -34,33 +39,87 @@ namespace ReceptProgram
             }
         }
 
-        private void LäsFiler()
+        private void ReceptlistaTillStringlista() //Kommer att läsa in det i ett .txt doc sen, men vill inte ha en lång string, utan mer organisterat
         {
-            BinaryReader br = new BinaryReader(new FileStream("C:/Users/Badde00/FilerProgrammering/Recept.hej", FileMode.OpenOrCreate, FileAccess.Read));
-            
+            ReceptSamling = new List<List<string>>(); //Gör en lista med listor. De inre listorna kommer att innehålla recepten.
 
-            br.Close();
+            for (int i = 0; i < Receptlista.Count(); i++) //Gör egenom hela receptet där i är vilket recept jag är på
+            {
+                ReceptSamling.Add(new List<string>()); //Lägger in det i nya string listan
+                ReceptSamling[i].Add(Receptlista[i].Namn); //Skriver in namnet först | Båda har i då det första receptet i Receptsamling ska vara det försrta receptet i Receptlista osv.
+
+                for (int a = 0; a < Receptlista[i].Ingredienser.Count(); a++) //Lägger in varje ingrediens. Kommer att vara 3 punkter per ingrediens. mått enhet och vara. 1 per rad. a är vilken ingrediens
+                {
+                    ReceptSamling[i].Add(Receptlista[i].Ingredienser[a].Mått.ToString()); //Lägger in mått i listan
+
+                    ReceptSamling[i].Add(Receptlista[i].Ingredienser[a].MåttEnhet);
+
+                    ReceptSamling[i].Add(Receptlista[i].Ingredienser[a].Vara);
+                }
+
+                ReceptSamling[i].Add("%&#$Ingredien$SlU7#&%"); //Så inläsningsprogrammet ska veta när den ska sluta läsa ingredienser och börja läsa instruktionerna. 
+                //Har skrivit konstigt så ingen ska skriva det av misstag
+
+                for (int b = 0; b < Receptlista[i].AttGöra.Count(); b++) //Repeterar för varje instruktion
+                {
+                    ReceptSamling[i].Add(Receptlista[i].AttGöra[b]);
+                }
+
+                ReceptSamling[i].Add("><Recept$1ut<>"); //Så programmet vet att receptet är slut och ska börja på nästa
+            }
         }
 
-        private void ReceptTillFil()
+        private void StringlistaTillFil()//Läser in listan till en fil
         {
-            StreamWriter sw = new StreamWriter("C:/Users/Badde00/FilerProgrammering/Recept.hej");
-            foreach(Recept item in Receptlista)
+            StreamWriter sw = new StreamWriter("temp.txt");
+            foreach(List<string> recept in ReceptSamling)
             {
-                sw.WriteLine(item);
+                foreach(string item in recept)
+                {
+                    sw.WriteLine(item);
+                }
             }
             sw.Close();
         }
 
-        private void FilTillRecept()
+        private void FilTillReceptlista()
         {
-            StreamReader sr = new StreamReader("C:/Users/Badde00/FilerProgrammering/Recept.hej");
-            Recept rad;
+            StreamReader sr = new StreamReader(new FileStream("temp.txt", FileMode.OpenOrCreate, FileAccess.Read));
+            string rad = "";
 
-            while((rad.ToString() = sr.ReadLine()) != null)
+            //Kommer att göra variabler som placeholders för alla delar i ett recept
+            string namn;
+            List<Ingrediens> Ingredienser = new List<Ingrediens>();
+            string vara;
+            int mått;
+            string måttEnhet;
+            List<string> AttGöra = new List<string>();
+
+
+            while ((rad = sr.ReadLine()) != null)
             {
-                Receptlista.Add(rad);
+                namn = rad;
+                while ((rad = sr.ReadLine()) != "%&#$Ingredien$SlU7#&%") //Kollar så att det itne är slutet på ingrediens-delen
+                {
+                    mått = int.Parse(rad); //Eftersom rad redan är inläst i while-delen så behövs det inte här
+                    måttEnhet = (rad = sr.ReadLine());
+                    vara = (rad = sr.ReadLine());
+                    Ingredienser.Add(new Ingrediens(vara, mått, måttEnhet));
+                }
+
+                while((rad = sr.ReadLine()) != "><Recept$1ut<>") //Läser in nästa del varje varv och kollar att receptet inte är slut
+                {
+                    AttGöra.Add(rad);
+                }
+
+                Receptlista.Add(new Recept(AttGöra, Ingredienser, namn));
+
+                AttGöra.Clear();
+                Ingredienser.Clear();
             }
+
+
+            sr.Close();
         }
 
         private void LäsaRecept()

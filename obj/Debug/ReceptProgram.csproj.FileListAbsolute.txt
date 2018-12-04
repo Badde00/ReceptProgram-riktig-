@@ -5,3 +5,10 @@ C:\Users\Badde00\source\repos\ReceptProgram\ReceptProgram\obj\Debug\ReceptProgra
 C:\Users\Badde00\source\repos\ReceptProgram\ReceptProgram\obj\Debug\ReceptProgram.csproj.CoreCompileInputs.cache
 C:\Users\Badde00\source\repos\ReceptProgram\ReceptProgram\obj\Debug\ReceptProgram.exe
 C:\Users\Badde00\source\repos\ReceptProgram\ReceptProgram\obj\Debug\ReceptProgram.pdb
+C:\Users\Admin\Desktop\ReceptProgram\ReceptProgram\bin\Debug\ReceptProgram.exe.config
+C:\Users\Admin\Desktop\ReceptProgram\ReceptProgram\bin\Debug\ReceptProgram.exe
+C:\Users\Admin\Desktop\ReceptProgram\ReceptProgram\bin\Debug\ReceptProgram.pdb
+C:\Users\Admin\Desktop\ReceptProgram\ReceptProgram\obj\Debug\ReceptProgram.csprojAssemblyReference.cache
+C:\Users\Admin\Desktop\ReceptProgram\ReceptProgram\obj\Debug\ReceptProgram.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Desktop\ReceptProgram\ReceptProgram\obj\Debug\ReceptProgram.exe
+C:\Users\Admin\Desktop\ReceptProgram\ReceptProgram\obj\Debug\ReceptProgram.pdb

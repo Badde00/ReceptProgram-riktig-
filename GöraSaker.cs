@@ -11,6 +11,8 @@ namespace ReceptProgram
     {
         List<Recept> Receptlista;
         List<List<string>> ReceptSamling;
+        const string INGRIDIENS_SLUT = "%&#$Ingredien$SlU7#&%";
+        const string RECEPT_SLUT = "><Recept$1ut<>";
 
         public void Start()
         {
@@ -57,7 +59,7 @@ namespace ReceptProgram
                     ReceptSamling[i].Add(Receptlista[i].Ingredienser[a].Vara);
                 }
 
-                ReceptSamling[i].Add("%&#$Ingredien$SlU7#&%"); //Så inläsningsprogrammet ska veta när den ska sluta läsa ingredienser och börja läsa instruktionerna. 
+                ReceptSamling[i].Add(INGRIDIENS_SLUT); //Så inläsningsprogrammet ska veta när den ska sluta läsa ingredienser och börja läsa instruktionerna. 
                 //Har skrivit konstigt så ingen ska skriva det av misstag
 
                 for (int b = 0; b < Receptlista[i].AttGöra.Count(); b++) //Repeterar för varje instruktion
@@ -65,7 +67,7 @@ namespace ReceptProgram
                     ReceptSamling[i].Add(Receptlista[i].AttGöra[b]);
                 }
 
-                ReceptSamling[i].Add("><Recept$1ut<>"); //Så programmet vet att receptet är slut och ska börja på nästa
+                ReceptSamling[i].Add(RECEPT_SLUT); //Så programmet vet att receptet är slut och ska börja på nästa
             }
         }
 
@@ -99,23 +101,24 @@ namespace ReceptProgram
             while ((rad = sr.ReadLine()) != null)
             {
                 namn = rad;
-                while ((rad = sr.ReadLine()) != "%&#$Ingredien$SlU7#&%") //Kollar så att det itne är slutet på ingrediens-delen
+                while ((rad = sr.ReadLine()) != INGRIDIENS_SLUT) //Kollar så att det itne är slutet på ingrediens-delen
                 {
                     mått = int.Parse(rad); //Eftersom rad redan är inläst i while-delen så behövs det inte här
                     måttEnhet = (rad = sr.ReadLine());
                     vara = (rad = sr.ReadLine());
                     Ingredienser.Add(new Ingrediens(vara, mått, måttEnhet));
                 }
+               
 
-                while((rad = sr.ReadLine()) != "><Recept$1ut<>") //Läser in nästa del varje varv och kollar att receptet inte är slut
+                while((rad = sr.ReadLine()) != RECEPT_SLUT) //Läser in nästa del varje varv och kollar att receptet inte är slut
                 {
                     AttGöra.Add(rad);
                 }
 
                 Receptlista.Add(new Recept(AttGöra, Ingredienser, namn));
 
-                AttGöra.Clear();
-                Ingredienser.Clear();
+                AttGöra = new List<string>();
+                Ingredienser = new List<Ingrediens>();
             }
 
 
@@ -170,7 +173,7 @@ namespace ReceptProgram
             int mängd;
             int enhet;
             string ingrediens;
-
+            List<Ingrediens> iLista = new List<Ingrediens>();
 
             while (true)
             {
@@ -178,7 +181,6 @@ namespace ReceptProgram
                 mängd = Mängd();
                 enhet = Enhet();
                 ingrediens = Ingrediens();
-                List<Ingrediens> iLista = new List<Ingrediens>();
 
                 iLista.Add(new Ingrediens(ingrediens, mängd, Enum.GetName(typeof(AltEnhet), enhet)));
 

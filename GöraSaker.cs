@@ -21,7 +21,7 @@ namespace ReceptProgram
 
             while (true)
             {
-                Console.WriteLine("Vad vill du göra? (Läsa recept (L) / Skriva recept (S))");
+                Console.WriteLine("Vad vill du göra? (Läsa recept (L) / Skriva recept (S) / Ta bort recept (T))");
 
                 string s = Console.ReadLine();
                 if (s == "L")
@@ -34,9 +34,12 @@ namespace ReceptProgram
                     ReceptlistaTillStringlista(); //Sparar efter varje nytt recept och skriver över tidigare fil då jag redan läst in hela vid programmets start.
                     StringlistaTillFil();
                 }
+                else if(s == "T") {
+                    TaBortRecept();
+                }
                 else
                 {
-                    Console.WriteLine("Var god skriv L eller S beroende på vad du vill göra");
+                    Console.WriteLine("Var god skriv L, S eller T beroende på vad du vill göra");
                 }
             }
         }
@@ -164,8 +167,23 @@ namespace ReceptProgram
 
         private string Namn()
         {
-            Console.WriteLine("Vad heter receptet?");
-            return Console.ReadLine();
+            bool sammaNamn = false;
+            while(true) {
+                Console.WriteLine("Vad heter receptet?");
+                string namn = Console.ReadLine();
+                foreach(Recept recept in Receptlista) {
+                    if(namn == recept.Namn) {
+                        sammaNamn = true;
+                        Console.WriteLine("Du kan inte döpa receptet till detta då det redan finns ett recept med detta namn.");
+                        break;
+                    }
+                }
+
+                if(sammaNamn = false) {
+                    break;
+                }
+            }
+            return namn;
         }
 
         private List<Ingrediens> SvarSkrivaRecept()
@@ -248,6 +266,21 @@ namespace ReceptProgram
             Console.WriteLine("Vilken ingrediens är det?");
 
             return Console.ReadLine();
+        }
+
+        private void TaBortRecept() {
+            Console.WriteLine("Skriv namnet på receptet du vill ta bort");
+            string namn = Console.ReadLine();
+            Recept taBort;
+            foreach(Recept recept in Receptlista) {
+                if(namn == recept.Namn) {
+                    taBort = recept;
+                    break;
+                }
+            }
+            Receptlista.Remove(taBort);
+            ReceptlistaTillStringlista();
+            StringlistaTillFil();
         }
 
         public GöraSaker()
